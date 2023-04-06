@@ -99,3 +99,26 @@ resource "google_compute_firewall" "icmp_allow_rule" {
   direction     = "INGRESS"
   priority      = 65534
 }
+
+resource "google_compute_firewall" "allow_internal" {
+  name    = "datacloud-lab-internet-subnet-allow-internal"
+  network = google_compute_network.datacloud_lab_vpc_network_1.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["0-65535"]
+  }
+
+  allow {
+    protocol = "icmp"
+  }
+
+  source_ranges = ["10.128.0.0/24", "10.128.1.0/24"]
+  direction     = "INGRESS"
+  priority      = 65534
+}
